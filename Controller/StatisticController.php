@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 class StatisticController extends Controller {
 
    /**
+    * @Route("/statistics/json/{from}/{to}/{filter}/{grouped}")
     * @Route("/statistics/json/{from}/{to}/{filter}")
     * @Route("/statistics/json/{from}/{to}")
     * 
@@ -24,7 +25,7 @@ class StatisticController extends Controller {
     * @param string $to
     * @param string $types
     */
-   public function jsonAction($from, $to, $filter = null) {
+   public function jsonAction($from, $to, $filter = null, $grouped = null) {
 
       $start = new DateTime($from);
       $end = new DateTime($to);
@@ -56,11 +57,16 @@ class StatisticController extends Controller {
       foreach ($filters as $f) {
          $head[] = $f;
       }
+      
+      if($grouped)
+         $head[] = "Total";
+      
       $result[] = $head;
 
 
       /* @var $entry Statistics */
       foreach ($entries as $entry) {
+         $sum = 0;
 
          $line = array(
              $entry->getCreated()->format("H:i")
@@ -68,13 +74,16 @@ class StatisticController extends Controller {
 
          $entryData = $entry->getData();
          foreach ($filters as $f) {
-            if (isset($entryData[$f]))
+            if (isset($entryData[$f])) {
                $line[] = floatval($entryData[$f]);
-            else
+               $sum += floatval($entryData[$f]);
+            } else
                $line[] = 0;
          }
 
-
+         if($grouped)
+            $line[] = $sum;
+         
          $result[] = $line;
       }
 
