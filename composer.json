@@ -1,0 +1,24 @@
+{
+    "name": "pmdevelopment/monitoring-bundle",
+    "description": "SNMP Monitoring for One Server",
+    "require": {
+        "endroid/qrcode-bundle": "dev-master"
+    },
+    "license": "GPL v2",
+    "authors": [
+        {
+            "name": "Sven Joder",
+            "email": "sj@pmdevelopment.de",
+            "homepage": "http://www.pmdevelopment.de",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "php5-snmp": "*"
+    },
+    "autoload": {
+        "psr-0": { "PM\\Bundle\\MonitoringBundle": "" }
+    },
+    "target-dir": "PM/Bundle/MonitoringBundle"
+}
